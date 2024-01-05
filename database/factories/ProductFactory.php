@@ -17,12 +17,12 @@ class ProductFactory extends Factory
      */
     public function definition(): array
     {
-        $title = $this->faker->text(20);
+        $title = $this->faker->sentence;
 
         return [
             'title'       => $title,
             'slug'        => Str::slug($title),
-            'description' => $this->faker->text(20),
+            'description' => $this->faker->paragraph,
             'image'       => $this->faker->imageUrl(),
 
         ];
