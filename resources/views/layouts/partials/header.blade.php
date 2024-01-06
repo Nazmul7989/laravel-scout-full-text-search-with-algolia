@@ -8,10 +8,9 @@
                 <li class="nav-item"><a class="nav-link {{ request()->is('/') ? 'active' : '' }}" aria-current="page" href="{{ route('home') }}">Home</a></li>
                 <li class="nav-item"><a class="nav-link {{ request()->is('/products') ? 'active' : '' }}" href="{{ route('products.index') }}">Products</a></li>
             </ul>
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
+
+            <div id="searchbox"></div>
         </div>
     </div>
 </nav>
+

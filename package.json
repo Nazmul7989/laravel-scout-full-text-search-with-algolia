@@ -9,5 +9,10 @@
         "axios": "^1.6.1",
         "laravel-vite-plugin": "^1.0.0",
         "vite": "^5.0.0"
+    },
+    "dependencies": {
+        "@algolia/autocomplete-js": "^1.13.0",
+        "@algolia/autocomplete-theme-classic": "^1.13.0",
+        "algoliasearch": "^4.22.0"
     }
 }
