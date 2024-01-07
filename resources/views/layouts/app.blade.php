@@ -13,9 +13,7 @@
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
 
-    <script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.22.0/dist/algoliasearch-lite.umd.js" integrity="sha256-/2SlAlnMUV7xVQfSkUQTMUG3m2LPXAzbS8I+xybYKwA=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.63.0/dist/instantsearch.production.min.js" integrity="sha256-tP2geWC/2cT8rjeVSRumDQXTieBNjUyZjvON1HzWqso=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.css@8.1.0/themes/satellite-min.css" integrity="sha256-p/rGN4RGy6EDumyxF9t7LKxWGg6/MZfGhJM/asKkqvA=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-theme-classic"/>
 
 
 
@@ -34,46 +32,45 @@
 <!-- Core theme JS-->
 <script src="{{ asset('js/scripts.js') }}"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-js"></script>
 <script>
-    const searchClient = algoliasearch('{{ config('scout.algolia.id') }}', '{{ config('scout.algolia.secret') }}');
+    // const { autocomplete } = window['@algolia/autocomplete-js'];
+    import algoliasearch from 'algoliasearch/lite';
+    import { autocomplete, getAlgoliaResults } from '@algolia/autocomplete-js';
 
-    const search = instantsearch({
-        indexName: 'products_index',
-        searchClient,
-    });
+    import '@algolia/autocomplete-theme-classic';
 
-    search.addWidgets([
-        instantsearch.widgets.searchBox({
-            container: '#searchbox',
-        }),
+    const searchClient = algoliasearch(
+        '{{ config('scout.algolia.id') }}',
+        '{{ config('scout.algolia.secret') }}'
+    );
 
-        instantsearch.widgets.hits({
-            container: '#hits',
-            templates: {
-                item(hit, { html, components }) {
-                    return html`
-                    <h2>
-                      ${hit.__hitIndex}:
-                      ${components.Highlight({ attribute: 'title', hit })}
-                    </h2>
-                    <p>${hit.description}</p>
-                  `;
+    autocomplete({
+        container: '#autocomplete',
+        placeholder: 'Search for products',
+        getSources({ query }) {
+            return [
+                {
+                    sourceId: 'products',
+                    getItems() {
+                        return getAlgoliaResults({
+                            searchClient,
+                            queries: [
+                                {
+                                    indexName: 'products-index',
+                                    query,
+                                    params: {
+                                        hitsPerPage: 10,
+                                    },
+                                },
+                            ],
+                        });
+                    },
+                    // ...
                 },
-            },
-
-        }),
-
-        instantsearch.widgets.configure({
-            hitsPerPage: 5,
-        }),
-        instantsearch.widgets.pagination({
-            container: '#pagination',
-        }),
-
-    ]);
-
-    search.start();
-
+            ];
+        },
+    });
 </script>
 
 

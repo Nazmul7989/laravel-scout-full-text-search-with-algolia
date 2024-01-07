@@ -9,7 +9,7 @@
                 <li class="nav-item"><a class="nav-link {{ request()->is('/products') ? 'active' : '' }}" href="{{ route('products.index') }}">Products</a></li>
             </ul>
 
-            <div id="searchbox"></div>
+            <div id="autocomplete"></div>
         </div>
     </div>
 </nav>
