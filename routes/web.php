@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,3 +20,5 @@ Route::get('/', function () {
 })->name('home');
 
 Route::resource('products',ProductController::class)->names('products');
+
+Route::get('/search',[SearchController::class,'index'])->name('search.index');
