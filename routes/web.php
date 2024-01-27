@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AutoCompleteController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,3 +20,5 @@ Route::get('/', function () {
 })->name('home');
 
 Route::resource('products',ProductController::class)->names('products');
+
+Route::get('/autocomplete',[AutoCompleteController::class,'index'])->name('autocomplete');
